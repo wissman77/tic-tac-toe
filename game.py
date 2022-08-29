@@ -87,7 +87,7 @@ class Game:
             try:
                 cell = int(input("> "))
             except ValueError:
-                print("Please choose a letter")
+                print("Please choose a number")
                 continue
 
             # validate the player choice
