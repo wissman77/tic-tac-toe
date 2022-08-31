@@ -86,34 +86,34 @@ class Game:
             except ValueError:
                 print("Please choose a number")
                 continue
+
+            # validate the player choice
+            if self.valid_cell(cell) and self.is_choice_valid(cell - 1):
+                self._board[cell-1] = self._player
             else:
-                # validate the player choice
-                if self.valid_cell(cell) and self.is_choice_valid(cell - 1):
-                    self._board[cell-1] = self._player
-                else:
-                    print("Enter a valid cell number")
-                    continue
+                print("Enter a valid cell number")
+                continue
 
-                # player is a winner
-                if self.is_winner(self._player):
-                    self.display_board()
-                    print("You won the game! :)")
-                    break
-
-                # is a draw - always after the player choice as a last one to play
-                if self.is_draw():
-                    self.display_board()
-                    print("It is a draw :|")
-                    break
-
-                comp_choice = self.computer_choice()
-                self._board[comp_choice] = self._computer
-
-                # computer is a winner
-                if self.is_winner(self._computer):
-                    self.display_board()
-                    print("You lose! :( the computer wins!")
-                    break
-
-                os.system("clear || clss")  # or os.system("cls")
+            # player is a winner
+            if self.is_winner(self._player):
                 self.display_board()
+                print("You won the game! :)")
+                break
+
+            # is a draw - always after the player choice as a last one to play
+            if self.is_draw():
+                self.display_board()
+                print("It is a draw :|")
+                break
+
+            comp_choice = self.computer_choice()
+            self._board[comp_choice] = self._computer
+
+            # computer is a winner
+            if self.is_winner(self._computer):
+                self.display_board()
+                print("You lose! :( the computer wins!")
+                break
+
+            os.system("clear")
+            self.display_board()
