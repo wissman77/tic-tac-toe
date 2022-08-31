@@ -1,5 +1,4 @@
 import os
-
 import random
 
 
@@ -7,9 +6,7 @@ class Game:
 
     def __init__(self):
         """
-
-        Initial valuse of players marks
-
+        Initial values of players marks
         and board as a list of number 
         """
 
@@ -53,7 +50,7 @@ class Game:
         return True
 
     def valid_cell(self, number):
-        """ Check if the player provids a valid cell """
+        """ Check if the player provides a valid cell """
 
         if number >= 1 and number <= 9:
             return True
@@ -68,7 +65,7 @@ class Game:
         return choice
 
     def is_choice_valid(self, choice):
-        """ Check if the player or the compute choose a valid move """
+        """ Check if the player or the computer choose a valid move """
 
         if self._board[choice] == self._player or self._board[choice] == self._computer:
             return False
