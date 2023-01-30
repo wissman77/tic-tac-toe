@@ -25,8 +25,31 @@
     <section class="intro">
       <h1>Tic Tac Toe</h1>
       <button class="btn">
-        <i class="fa-solid fa-right-to-bracket enter"></i> Enter The Game
+        <i class="fa-solid fa-right-to-bracket white-icon"></i> Enter The Game
       </button>
+    </section>
+    <section class="choose-game">
+      <div class="game-mode">
+        <button class="btn large-btn">
+          <i class="fa-solid fa-person white-icon"></i> Player vs Player
+          <i class="fa-solid fa-person white-icon"></i>
+        </button>
+        <button class="btn large-btn">
+          <i class="fa-solid fa-person white-icon"></i> Player vs AI
+          <i class="fa-solid fa-computer white-icon"></i>
+        </button>
+      </div>
+      <div class="two-players">
+        <form action="#" method="post">
+          <label for="player1">Player 1:</label>
+          <input type="text" name="player1" id="player1" required />
+          <label for="player2">Player 2:</label>
+          <input type="text" name="player2" id="player2" required />
+          <button type="submit" class="btn">
+            <i class="fa-solid fa-gamepad white-icon"></i> Play
+          </button>
+        </form>
+      </div>
     </section>
   </body>
 </html>
