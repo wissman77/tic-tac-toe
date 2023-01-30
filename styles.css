@@ -203,6 +203,15 @@ form input[type='text'] {
   animation-duration: 1s;
 }
 
+.github {
+  font-size: 1.5rem;
+  transition: all 0.4s ease-in;
+}
+
+.github:hover {
+  transform: rotate(360deg);
+}
+
 @keyframes popUp {
   0% {
     transform: scale(0) rotate(0deg);
