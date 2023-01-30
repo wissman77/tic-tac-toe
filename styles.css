@@ -1,6 +1,6 @@
 :root {
   --blue-color: #5d68fd;
-  --green-color: #7efa66;
+  --green-color: #34e710;
 }
 
 * {
@@ -15,6 +15,8 @@ input {
   font-family: 'Righteous', cursive;
 }
 
+/* ------------------------- INTRO STYLES ------------------- */
+
 .intro {
   display: flex;
   flex-direction: column;
@@ -28,10 +30,8 @@ input {
   left: 0;
   background-color: #fff;
   z-index: 3;
-  /* display: none; */
+  display: none;
 }
-
-/* ------------------------- INTRO STYLES ------------------- */
 
 .intro h1 {
   font-size: 5rem;
@@ -84,13 +84,19 @@ input {
   gap: 20px;
 }
 
-.two-players form {
+.two-players form,
+.ai-form form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.two-players form input[type='text'] {
+.two-players,
+.ai-form {
+  display: none;
+}
+
+form input[type='text'] {
   font-size: 1.2rem;
   outline: none;
   border-radius: 15px;
