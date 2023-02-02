@@ -50,6 +50,14 @@ input {
   transform: rotate(360deg);
 }
 
+.error {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #f82121;
+  transform: scale(0);
+  transition: all 0.5s ease;
+}
+
 /* ------------------------- INTRO STYLES ------------------- */
 
 .intro {
@@ -116,11 +124,6 @@ form input[type='text'] {
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
 
-.btn-small {
-  font-size: 1rem;
-  padding: 5px 10px;
-}
-
 /* ------------------------- GAME AND BOARD STYLES ------------------- */
 
 .game {
@@ -134,6 +137,17 @@ form input[type='text'] {
   z-index: 0;
   margin: 0 auto;
   display: none;
+  animation-name: showUp;
+  animation-duration: 1s;
+}
+
+@keyframes showUp {
+  0% {
+    transform: scale(0) rotate(0);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
 }
 
 .game h1 {
@@ -145,10 +159,10 @@ form input[type='text'] {
 
 .players-announcements {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   gap: 20px;
-  height: 70px;
+  height: 30px;
   font-size: 1rem;
   padding: 5px;
 }
@@ -167,12 +181,16 @@ form input[type='text'] {
 }
 
 .messages {
-  align-self: flex-end;
+  display: grid;
+  align-items: center;
   color: var(--blue-color);
+  height: 30px;
+  font-size: 1.3rem;
 }
 
 .cells {
   width: 300px;
+  height: 300px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -210,12 +228,17 @@ form input[type='text'] {
 }
 
 .game-actions {
-  display: flex;
+  display: none;
   width: 400px;
-  visibility: hidden;
   justify-content: space-around;
   gap: 20px;
   align-items: center;
+  animation-name: popUp;
+  animation-duration: 1s;
+}
+
+.show {
+  display: flex;
   animation-name: popUp;
   animation-duration: 1s;
 }

@@ -24,25 +24,23 @@
   <body>
     <section class="intro">
       <h1>Tic Tac Toe</h1>
-      <button class="btn">
+      <button class="btn" id="enter-game">
         <i class="fa-solid fa-right-to-bracket white-icon"></i> Enter The Game
       </button>
     </section>
     <section class="choose-game">
       <div class="game-mode">
-        <button class="btn large-btn" id="humans">
+        <button class="btn large-btn" id="human-vs-human">
           <i class="fa-solid fa-person white-icon"></i> Player vs Player
           <i class="fa-solid fa-person white-icon"></i>
         </button>
-        <button class="btn large-btn" id="ai">
+        <button class="btn large-btn" id="human-vs-ai">
           <i class="fa-solid fa-person white-icon"></i> Player vs AI
           <i class="fa-solid fa-computer white-icon"></i>
         </button>
       </div>
       <div class="ai-form">
         <form action="#" method="post">
-          <button class="btn btn-small" data-type="easy">Easy</button>
-          <button class="btn btn-small" data-type="hard">Hard</button>
           <label for="player">Player Name:</label>
           <input type="text" name="player" id="player" required />
           <button type="submit" class="btn">
@@ -67,20 +65,20 @@
       <div class="players-announcements">
         <div class="first-player">
           <div class="player1-name">Player 1 name</div>
-          <div class="playe1-score">0</div>
+          <div class="player1-score">0</div>
         </div>
-        <div class="messages">player 1's turn</div>
         <div class="second-player-or-ai">
           <div class="player2-or-ai-name">Player 2 name</div>
-          <div class="playe2-or-ai-score">0</div>
+          <div class="player2-or-ai-score">0</div>
         </div>
       </div>
+      <div class="messages">Welcome Players</div>
       <div class="cells"></div>
       <div class="game-actions">
-        <button class="btn">
+        <button class="btn exit-game">
           <i class="fa-solid fa-circle-xmark white-icon"></i> Exit Game
         </button>
-        <button class="btn">
+        <button class="btn play-again">
           <i class="fa-solid fa-reply white-icon"></i> Play again
         </button>
       </div>

@@ -4,103 +4,278 @@ const createPlayer = (name, mark, type) => {
     name,
     mark,
     type,
+    score: 0,
   };
 };
+
+function Gameboard() {
+  this.board = ['', '', '', '', '', '', '', '', ''];
+}
+
+const gameController = (() => {
+  let board = new Gameboard().board;
+
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  function checkWin(player) {
+    const mark = player.mark;
+    const winner = {};
+    winner.winningPlayer = player;
+    winner.isWinner = false;
+    winningCombos.forEach((combo) => {
+      const a = board[combo[0]];
+      const b = board[combo[1]];
+      const c = board[combo[2]];
+      if (a === mark && b === mark && c === mark) {
+        winner.isWinner = true;
+        winner.winningCombo = combo;
+      }
+    });
+    return winner;
+  }
+
+  function turn(currentPlayer, index) {
+    board[index] = currentPlayer.mark;
+  }
+
+  function getEmptyCells() {
+    const emptyCells = [];
+    board.forEach((cell, index) => {
+      if (cell === '') emptyCells.push(index);
+    });
+    return emptyCells;
+  }
+
+  function randomEmptyCell() {
+    return getEmptyCells()[Math.floor(Math.random() * getEmptyCells().length)];
+  }
+
+  function isTie() {
+    return getEmptyCells().length === 0;
+  }
+
+  function initializeBoard() {
+    board = new Gameboard().board;
+  }
+
+  return {
+    turn,
+    checkWin,
+    isTie,
+    randomEmptyCell,
+    initializeBoard,
+  };
+})();
 
 // Intializing game vars Module
 const initModule = ((doc) => {
   let player1;
   let player2;
   let level;
+  let currentPlayer;
 
   // util const
-  const _active = 'var(--green-color)';
-  const _inactive = 'var(--blue-color)';
-  const _visiable = 'flex';
-  const _invisibale = 'none';
+  const GREEN = 'var(--green-color)';
+  const BLUE = 'var(--blue-color)';
+  const VISIBLE = 'flex';
+  const INVISIBLE = 'none';
 
   // constants for buttons on the game
-  const _enterGameBtn = doc.querySelector('#enter-game');
-  const _playerVsPlayerBtn = doc.querySelector('#human-vs-human');
-  const _playerVsAiBtn = doc.querySelector('#human-vs-ai');
-  const _easyAiBtn = doc.querySelector('button[data-type="easy"]');
-  const _hardAiBtn = doc.querySelector('button[data-type="hard"]');
+  const enterGameBtn = doc.querySelector('#enter-game');
+  const playerVsPlayerBtn = doc.querySelector('#human-vs-human');
+  const playerVsAiBtn = doc.querySelector('#human-vs-ai');
+  // const easyAiBtn = doc.querySelector('button[data-type="easy"]');
+  // const hardAiBtn = doc.querySelector('button[data-type="hard"]');
 
   // game sections
-  const _introSection = doc.querySelector('.intro');
-  const _chooseGameSection = doc.querySelector('.choose-game');
-  const _gameSection = doc.querySelector('.game');
+  const introSection = doc.querySelector('.intro');
+  const chooseGameSection = doc.querySelector('.choose-game');
+  const gameSection = doc.querySelector('.game');
 
   // forms
-  const _aiDisplay = doc.querySelector('.ai-form');
-  const _twoPlayersDisplay = doc.querySelector('.two-players');
-  const _humanPlayerTextBox = doc.querySelector('#player');
-  const _player1TextBox = doc.querySelector('#player1');
-  const _player2TextBox = doc.querySelector('#player2');
-  const _error = doc.querySelector('.error');
+  const aiDisplay = doc.querySelector('.ai-form');
+  const twoPlayersDisplay = doc.querySelector('.two-players');
+  const humanPlayerTextBox = doc.querySelector('#player');
+  const player1TextBox = doc.querySelector('#player1');
+  const player2TextBox = doc.querySelector('#player2');
 
-  const _showGameDisplay = () => {
-    _chooseGameSection.style.display = _invisibale;
-    _gameSection.style.display = _visiable;
+  // game section constants
+  const player1Name = doc.querySelector('.player1-name');
+  const player2OrAIName = doc.querySelector('.player2-or-ai-name');
+  const player1ScoreDisplay = doc.querySelector('.player1-score');
+  const player2OrAIScoreDisplay = doc.querySelector('.player2-or-ai-score');
+  const cells = doc.querySelector('.cells');
+  const messages = doc.querySelector('.messages');
+  const endGameActions = doc.querySelector('.game-actions');
+  const playAgainBtn = doc.querySelector('.play-again');
+  const exitGameBtn = doc.querySelector('.exit-game');
+
+  const showGameDisplay = () => {
+    chooseGameSection.style.display = INVISIBLE;
+    gameSection.style.display = VISIBLE;
+    player1Name.textContent = `${player1.name} (${player1.mark})`;
+    player2OrAIName.textContent = `${player2.name} (${player2.mark})`;
+    currentPlayer = player1;
   };
 
   // Events listners
-  _enterGameBtn.addEventListener('click', () => {
-    _introSection.style.display = 'none';
-    _chooseGameSection.style.display = _visiable;
+  enterGameBtn.addEventListener('click', () => {
+    introSection.style.display = 'none';
+    chooseGameSection.style.display = VISIBLE;
   });
 
-  _playerVsPlayerBtn.addEventListener('click', () => {
-    _playerVsAiBtn.style.backgroundColor = _inactive;
-    _playerVsPlayerBtn.style.backgroundColor = _active;
-    _twoPlayersDisplay.style.display = _visiable;
-    _aiDisplay.style.display = _invisibale;
+  playerVsPlayerBtn.addEventListener('click', () => {
+    playerVsAiBtn.style.backgroundColor = BLUE;
+    playerVsPlayerBtn.style.backgroundColor = GREEN;
+    twoPlayersDisplay.style.display = VISIBLE;
+    aiDisplay.style.display = INVISIBLE;
   });
 
-  _playerVsAiBtn.addEventListener('click', () => {
-    _playerVsAiBtn.style.backgroundColor = _active;
-    _playerVsPlayerBtn.style.backgroundColor = _inactive;
-    _twoPlayersDisplay.style.display = _invisibale;
-    _aiDisplay.style.display = _visiable;
+  playerVsAiBtn.addEventListener('click', () => {
+    playerVsAiBtn.style.backgroundColor = GREEN;
+    playerVsPlayerBtn.style.backgroundColor = BLUE;
+    twoPlayersDisplay.style.display = INVISIBLE;
+    aiDisplay.style.display = VISIBLE;
   });
 
-  _easyAiBtn.addEventListener('click', () => {
-    level = 'EASY';
-    _easyAiBtn.style.backgroundColor = _active;
-    _hardAiBtn.style.backgroundColor = _inactive;
-    _error.textContent = '';
-  });
-
-  _hardAiBtn.addEventListener('click', () => {
-    level = 'HARD';
-    _easyAiBtn.style.backgroundColor = _inactive;
-    _hardAiBtn.style.backgroundColor = _active;
-    _error.textContent = '';
-  });
-
-  _aiDisplay.addEventListener('submit', (e) => {
+  aiDisplay.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (level) {
-      player1 = createPlayer(_humanPlayerTextBox.value, 'X', 'HUMAN');
-      player2 = createPlayer('AI Machine', 'O', 'AI');
-      _showGameDisplay();
-    } else {
-      _error.textContent = 'Please choose a game level.';
-      _error.style.transform = 'scale(1)';
-      return false;
+    player1 = createPlayer(humanPlayerTextBox.value, 'X', 'HUMAN');
+    player2 = createPlayer('AI Machine', 'O', 'AI');
+    showGameDisplay();
+  });
+
+  twoPlayersDisplay.addEventListener('submit', (e) => {
+    e.preventDefault();
+    player1 = createPlayer(player1TextBox.value, 'X', 'HUMAN');
+    player2 = createPlayer(player2TextBox.value, 'O', 'HUMAN');
+    showGameDisplay();
+  });
+
+  playAgainBtn.addEventListener('click', () => {
+    cells.innerHTML = '';
+    produceCells();
+    gameController.initializeBoard();
+    endGameActions.classList.remove('show');
+    currentPlayer = player1;
+    messages.textContent = "Let's Play!";
+  });
+
+  exitGameBtn.addEventListener('click', () => doc.location.reload());
+
+  function produceCells() {
+    for (let i = 0; i < 9; i++) {
+      const cell = doc.createElement('div');
+      cell.setAttribute('data-key', i);
+      cell.textContent = '';
+      cell.style.backgroundColor = '#fff';
+      cell.classList.add('cell');
+      cell.addEventListener('click', play);
+      cells.appendChild(cell);
     }
-  });
+  }
 
-  _twoPlayersDisplay.addEventListener('submit', (e) => {
-    e.preventDefault();
-    player1 = createPlayer(_player1TextBox.value, 'X', 'HUMAN');
-    player2 = createPlayer(_player2TextBox.value, 'X', 'HUMAN');
-    _showGameDisplay();
-  });
+  function switchPlayers() {
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+  }
 
-  return {
-    level,
-    player1,
-    player2,
-  };
+  function removeEventListeners() {
+    for (let i = 0; i < cells.childElementCount; i++) {
+      cells.children[i].removeEventListener('click', play, false);
+    }
+  }
+
+  function changeBackgroundOfWinningCells(combo, color) {
+    for (let i = 0; i < combo.length; i++) {
+      cells.children[combo[i]].style.backgroundColor = color;
+    }
+  }
+
+  function isWinner(player) {
+    const winner = gameController.checkWin(player);
+    if (winner.isWinner) {
+      return winner.isWinner;
+    }
+    return false;
+  }
+
+  function declareWinner(player) {
+    messages.textContent = `The Winner is ${player.name}`;
+    const winner = gameController.checkWin(player);
+    let color;
+    if (player === player1) {
+      player1ScoreDisplay.textContent = player.score;
+      color = BLUE;
+    } else {
+      player2OrAIScoreDisplay.textContent = player.score;
+      color = GREEN;
+    }
+    changeBackgroundOfWinningCells(winner.winningCombo, color);
+    endGameActions.classList.add('show');
+    removeEventListeners();
+  }
+
+  function tieActions() {
+    messages.textContent = "It's a Draw!";
+    for (let i = 0; i < cells.childElementCount; i++) {
+      cells.children[i].style.backgroundColor = '#fdfd88';
+    }
+    endGameActions.classList.add('show');
+    removeEventListeners();
+  }
+
+  function play(e) {
+    let cellIndex = +e.target.getAttribute('data-key');
+    if (currentPlayer.type === 'HUMAN') {
+      if (cells.children[cellIndex].textContent === '') {
+        cells.children[cellIndex].textContent = currentPlayer.mark;
+        gameController.turn(currentPlayer, cellIndex);
+        if (isWinner(currentPlayer)) {
+          // winning logic
+          currentPlayer.score += 1;
+          declareWinner(currentPlayer);
+          return;
+        }
+        if (gameController.isTie()) {
+          // Draw logic
+          tieActions();
+          return;
+        }
+        switchPlayers();
+        messages.textContent = `${currentPlayer.name}'s turn`;
+        if (currentPlayer.type === 'AI') {
+          cellIndex = gameController.randomEmptyCell();
+          setTimeout(() => {
+            gameController.turn(currentPlayer, cellIndex);
+            cells.children[cellIndex].textContent = currentPlayer.mark;
+            if (isWinner(currentPlayer)) {
+              // winning logic
+              currentPlayer.score += 1;
+              declareWinner(currentPlayer);
+              return;
+            }
+            if (gameController.isTie()) {
+              // Draw logic
+              tieActions();
+              return;
+            }
+            switchPlayers();
+            messages.textContent = `${currentPlayer.name}'s turn`;
+          }, 700);
+        }
+      }
+      return;
+    }
+  }
+
+  produceCells();
 })(document);
