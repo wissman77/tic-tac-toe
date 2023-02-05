@@ -1,7 +1,8 @@
 :root {
-  --blue-color: #5d68fd;
-  --green-color: #34e710;
-  --light-blue-color: #b6c7ff;
+  --blue-color: #7cb6f4;
+  --green-color: #7edb6b;
+  --light-gray-color: #e3e5ee;
+  --light-yellow-color: #eff4a4;
 }
 
 * {
@@ -39,6 +40,11 @@ input {
 
 .large-btn {
   width: 300px;
+}
+
+.btn-small {
+  font-size: 1rem;
+  padding: 5px 10px;
 }
 
 .github {
@@ -185,7 +191,7 @@ form input[type='text'] {
   align-items: center;
   color: var(--blue-color);
   height: 30px;
-  font-size: 1.3rem;
+  font-size: 2rem;
 }
 
 .cells {
@@ -206,7 +212,7 @@ form input[type='text'] {
 
 .cell:hover {
   cursor: pointer;
-  background: var(--light-blue-color);
+  background: var(--light-gray-color);
 }
 
 .cell:nth-child(1),
