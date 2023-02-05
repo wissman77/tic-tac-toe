@@ -21,6 +21,7 @@
     <link rel="shortcut icon" href="./img/favicon.png" type="image/png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <section class="intro">
       <h1>Tic Tac Toe</h1>
@@ -41,6 +42,13 @@
       </div>
       <div class="ai-form">
         <form action="#" method="post">
+          <div class="error"></div>
+          <button type="button" class="btn btn-small" data-type="easy">
+            Easy
+          </button>
+          <button type="button" class="btn btn-small" data-type="hard">
+            Unbeatable
+          </button>
           <label for="player">Player Name:</label>
           <input type="text" name="player" id="player" required />
           <button type="submit" class="btn">
